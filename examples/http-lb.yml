@@ -1,0 +1,33 @@
+kind: http_lb
+name: edge
+bind_address: 127.0.0.1
+bind_port: 8080
+balance: roundrobin
+health_path: /health
+maxconn: 2000
+timeouts:
+  connect: 5s
+  client: 30s
+  server: 30s
+  check: 5s
+backends:
+  - name: api
+    host: api.example.com
+    default: false
+    servers:
+      - name: api1
+        address: 192.0.2.12
+        port: 8080
+      - name: api2
+        address: 192.0.2.13
+        port: 8080
+  - name: web
+    host: www.example.com
+    default: true
+    servers:
+      - name: web1
+        address: 192.0.2.10
+        port: 8080
+      - name: web2
+        address: 192.0.2.11
+        port: 8080
